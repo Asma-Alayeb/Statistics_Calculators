@@ -11,7 +11,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure full viewport height */
+            min-height: 100vh;
         }
         header {
             background-color: #6a0dad; /* Purple */
@@ -19,26 +19,15 @@
             padding: 10px 0;
             text-align: center;
             width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000; /* Ensure it stays on top */
-        }
-        header h1 {
-            margin: 0;
-            font-size: 24px;
         }
         nav {
             background-color: #800080; /* Darker purple */
             padding: 10px;
             position: fixed;
-            width: 160px; /* Smaller width for the sidebar */
-            height: calc(100vh - 40px); /* Full height minus header and footer height */
-            top: 40px; /* Position below the header */
-            left: 0;
-            overflow: auto; /* Add scroll if necessary */
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual separation */
-            z-index: 999; /* Ensure it stays below the header */
+            width: 220px; /* Increased width */
+            height: 100vh;
+            overflow: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
         nav ul {
             list-style: none;
@@ -52,7 +41,7 @@
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px; /* Smaller font size */
+            font-size: 16px;
             display: block;
             padding: 8px;
             border-radius: 4px;
@@ -61,33 +50,30 @@
             background-color: #6a0dad; /* Lighter purple */
         }
         main {
-            margin-left: 160px; /* Adjust based on the width of the nav */
+            margin-left: 240px; /* Adjusted for increased sidebar width */
             padding: 15px;
-            max-width: calc(100% - 160px); /* Adjust to fit the remaining width */
-            margin-top: 60px; /* Adjust margin to account for the fixed header */
-            text-align: center; /* Center-align text */
+            max-width: 900px;
+            margin: 0 auto;
             flex: 1;
-            box-sizing: border-box; /* Include padding in width calculations */
         }
         .welcome-message {
-            font-size: 18px; /* Larger font size for better readability */
-            margin: 0;
+            background-color: #e6e6fa; /* Light purple */
             padding: 20px;
-            background-color: #fff; /* White background for contrast */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for better appearance */
-            display: inline-block; /* Center as block-level */
+            text-align: center;
+            margin: 0 auto;
+            max-width: 800px; /* Centered content width */
         }
         footer {
             background-color: #6a0dad;
             color: #fff;
-            padding: 5px;
+            padding: 10px;
             text-align: center;
             font-size: 12px;
             position: fixed;
-            width: calc(100% - 160px); /* Adjust based on the width of the nav */
+            width: calc(100% - 220px); /* Adjusted for increased sidebar width */
             bottom: 0;
-            margin-left: 160px; /* Adjust based on the width of the nav */
+            left: 220px; /* Adjusted for increased sidebar width */
         }
     </style>
 </head>
@@ -109,7 +95,6 @@
     </nav>
 
     <main>
-        <h1>CCD's Statistics Calculators</h1>
         <p class="welcome-message">
             Welcome to CCD's Statistics Calculators!<br><br>
             I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
