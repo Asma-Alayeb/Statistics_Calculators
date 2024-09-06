@@ -162,9 +162,12 @@
         document.getElementById('ciResult').innerHTML = `Confidence Interval: [${lowerBound.toFixed(4)}, ${upperBound.toFixed(4)}]<br>Margin of Error: ${marginOfError.toFixed(4)}`;
     }
 function calculateSampleSize() {
-    const marginError = parseFloat(document.getElementById('marginError').value) / 100;  // Convert percentage to decimal
-    const confidenceLevel = parseFloat(document.getElementById('ssConfidenceLevel').value) / 100;
+    const marginErrorPercent = parseFloat(document.getElementById('marginError').value); // Input as percentage
+    const confidenceLevel = parseFloat(document.getElementById('ssConfidenceLevel').value) / 100; // Convert to decimal
     const stdDev = parseFloat(document.getElementById('ssStdDev').value);
+
+    // Convert margin error from percentage to decimal
+    const marginError = marginErrorPercent / 100;
 
     // Validate inputs
     if (isNaN(marginError) || isNaN(confidenceLevel) || isNaN(stdDev) || marginError <= 0 || confidenceLevel <= 0 || confidenceLevel >= 1) {
@@ -175,12 +178,13 @@ function calculateSampleSize() {
     // Calculate the zValue for the given confidence level
     const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
 
-    // Calculate the sample size
+    // Calculate the sample size using the correct formula
     const sampleSize = Math.ceil(Math.pow(zValue * stdDev / marginError, 2));
 
     // Display the result
     document.getElementById('ssResult').innerHTML = `Required Sample Size: ${sampleSize}`;
 }
+
 
 </script>
 
