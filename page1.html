@@ -3,25 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page 1</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="page1.html">Confidence Intervals for The Mean/Sample Size</a></li>
-               
-            </ul>
-        </nav>
-    </header>
-
-    <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inferential Statistics</title>
+    <title>Statistical Calculators</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,63 +14,131 @@
         header {
             background-color: #6a0dad; /* Purple */
             color: #fff;
-            padding: 10px 0;
+            padding: 15px 0;
             text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
             background-color: #800080; /* Darker purple */
-            padding: 5px;
+            padding: 10px;
             text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
+            font-size: 16px;
         }
         nav a:hover {
             text-decoration: underline;
         }
-        section {
+        main {
             padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        section {
+            margin-bottom: 30px;
         }
         .calculator {
-            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #800080;
+        }
+        footer {
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
+
 <header>
-    <h1>Confidence Intervals For The Mean</h1>
+    <h1>Statistical Calculators</h1>
 </header>
 
-<section id="confidenceInterval" class="calculator">
-    <h2>Confidence Interval Calculator</h2>
-    <form id="ciForm">
-        <p>Sample Mean (x̄): <input type="text" id="mean" required></p>
-        <p>Sample Standard Deviation (s): <input type="text" id="stdDev" required></p>
-        <p>Sample Size (n): <input type="text" id="sampleSize" required></p>
-        <p>Confidence Level (%): <input type="text" id="confidenceLevel" required></p>
-        <button type="button" onclick="calculateConfidenceInterval()">Calculate</button>
-    </form>
-    <p id="ciResult"></p>
-</section>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Confidence Intervals for The Mean/Sample Size</a></li>
+    </ul>
+</nav>
 
-<section id="sampleSizeCalculator" class="calculator">
-    <h2>Sample Size Calculator</h2>
-    <form id="ssForm">
-        <p>Estimated Margin of Error (E): <input type="text" id="marginError" required></p>
-        <p>Confidence Level (%): <input type="text" id="ssConfidenceLevel" required></p>
-        <p>Sample Standard Deviation (s): <input type="text" id="ssStdDev" required></p>
-        <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
-    </form>
-    <p id="ssResult"></p>
-</section>
+<main>
+    <section id="confidenceInterval" class="calculator">
+        <h2>Confidence Interval Calculator</h2>
+        <form id="ciForm">
+            <p>Sample Mean (x̄): <input type="text" id="mean" required></p>
+            <p>Sample Standard Deviation (s): <input type="text" id="stdDev" required></p>
+            <p>Sample Size (n): <input type="text" id="sampleSize" required></p>
+            <p>Confidence Level (%): <input type="text" id="confidenceLevel" required></p>
+            <button type="button" onclick="calculateConfidenceInterval()">Calculate</button>
+        </form>
+        <p id="ciResult"></p>
+    </section>
+
+    <section id="sampleSizeCalculator" class="calculator">
+        <h2>Sample Size Calculator</h2>
+        <form id="ssForm">
+            <p>Estimated Margin of Error (E): <input type="text" id="marginError" required></p>
+            <p>Confidence Level (%): <input type="text" id="ssConfidenceLevel" required></p>
+            <p>Sample Standard Deviation (s): <input type="text" id="ssStdDev" required></p>
+            <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
+        </form>
+        <p id="ssResult"></p>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; Asma Alayeb</p>
+</footer>
 
 <script>
     function calculateConfidenceInterval() {
@@ -126,14 +176,7 @@
         document.getElementById('ssResult').innerHTML = `Required Sample Size: ${sampleSize}`;
     }
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
-</body>
-</html>
-
-    </main>
-
-    <footer>
-        <p>&copy; Asma Alayeb</p>
-    </footer>
 </body>
 </html>
