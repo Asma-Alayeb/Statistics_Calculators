@@ -177,13 +177,15 @@ function calculateSampleSize() {
 
     // Calculate the zValue for the given confidence level
     const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
-
+ // Round zValue to 4 decimal places
+    zValue = parseFloat(zValue.toFixed(4));
     // Calculate the sample size using the correct formula
     const sampleSize = Math.ceil(Math.pow(zValue * stdDev / marginError, 2));
 
     // Display the result
     document.getElementById('ssResult').innerHTML = `Required Sample Size: ${sampleSize}`;
 }
+
 
 </script>
 
