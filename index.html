@@ -5,31 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        header {
+            background-color: #6a0dad; /* Purple */
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            flex: 1;
+        }
+        nav {
+            background-color: #800080; /* Darker purple */
+            padding: 10px;
+            position: fixed;
+            width: 200px; /* Adjust as needed */
+            height: 100vh; /* Full height of the viewport */
+            overflow: auto; /* Add scroll if necessary */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            margin-bottom: 10px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        nav a:hover {
+            background-color: #6a0dad; /* Lighter purple */
+        }
+        main {
+            margin-left: 220px; /* Adjust based on the width of the nav */
+            padding: 15px;
+            max-width: 900px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        p.welcome-message {
+            font-size: 16px;
+        }
+        footer {
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            position: fixed;
+            width: calc(100% - 200px); /* Adjust based on the width of the nav */
+            bottom: 0;
+            margin-left: 200px; /* Adjust based on the width of the nav */
+        }
+    </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="page1.html">Confidence Intervals For The Mean/Sample Size</a></li>
+            <li><a href="page2.html">Confidence Intervals for a Proportion/Sample Size</a></li>
+            <li><a href="page3.html">Hypothesis Testing for Means</a></li>
+            <li><a href="page4.html">Hypothesis Testing For Proportions</a></li>
+            <li><a href="page5.html">Hypothesis Testing on Two Samples (Proportions)</a></li>
+            <li><a href="page6.html">Hypothesis Testing on Two Samples (Means)</a></li>
+        </ul>
+    </nav>
+
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="page1.html">Confidence Intervals For The Mean/Sample Size</a></li>
-                <li><a href="page2.html">Confidence Intervals for a Proportion/Sample Size</a></li>
-                <li><a href="page3.html">Hypothesis Testing for Means</a></li>
-                <li><a href="page4.html">Hypothesis Testing For Proportions</a></li>
-                <li><a href="page5.html">Hypothesis Testing on Two Samples (Proportions)</a></li>
-                <li><a href="page6.html">Hypothesis Testing on Two Samples (Means)</a></li>
-            </ul>
-        </nav>
+        <h1>CCD's Statistics Calculators</h1>
     </header>
 
     <main>
-        <h1> CCD's Statistics Calculators</h1>
-<p class="welcome-message">
-    Welcome to CCD's Statistics Calculators!<br><br>
-    I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
-    Please use the navigation bar above to explore the different calculators. Choose the one that best fits your needs and let them guide you through the calculations step by step.<br><br>
-    Happy learning, and good luck with your studies!
-</p>
-
+        <p class="welcome-message">
+            Welcome to CCD's Statistics Calculators!<br><br>
+            I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
+            Please use the navigation bar on the left to explore the different calculators. Choose the one that best fits your needs and let them guide you through the calculations step by step.<br><br>
+            Happy learning, and good luck with your studies!
+        </p>
     </main>
 
     <footer>
