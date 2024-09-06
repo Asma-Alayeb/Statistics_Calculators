@@ -10,24 +10,29 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
             min-height: 100vh;
+            flex-direction: column;
         }
         header {
             background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            flex-shrink: 0;
             width: 100%;
         }
         nav {
             background-color: #800080; /* Darker purple */
             padding: 10px;
             position: fixed;
-            width: 220px; /* Increased width */
-            height: 100vh;
+            width: 250px; /* Wider width for the sidebar */
+            height: calc(100vh - 20px); /* Full height of the viewport minus header and footer */
             overflow: auto;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            top: 50px; /* Position below the header */
+            left: 0;
+            bottom: 30px; /* Adjust based on the height of the footer */
+            z-index: 100; /* Ensure it is above other content */
         }
         nav ul {
             list-style: none;
@@ -47,22 +52,28 @@
             border-radius: 4px;
         }
         nav a:hover {
-            background-color: #6a0dad; /* Lighter purple */
+            background-color: #6a0dad;
         }
         main {
-            margin-left: 240px; /* Adjusted for increased sidebar width */
+            margin-left: 270px; /* Adjust based on the width of the nav */
             padding: 15px;
-            max-width: 900px;
-            margin: 0 auto;
+            background-color: #f3e6f5; /* Light purple background */
+            text-align: center;
             flex: 1;
         }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
         .welcome-message {
-            background-color: #e6e6fa; /* Light purple */
+            background-color: #e6dff5; /* Light purple background for the welcome message */
             padding: 20px;
+            font-size: 18px;
+            font-family: Verdana, sans-serif;
             border-radius: 8px;
-            text-align: center;
             margin: 0 auto;
-            max-width: 800px; /* Centered content width */
+            display: inline-block;
+            max-width: 80%;
         }
         footer {
             background-color: #6a0dad;
@@ -71,40 +82,43 @@
             text-align: center;
             font-size: 12px;
             position: fixed;
-            width: calc(100% - 220px); /* Adjusted for increased sidebar width */
+            width: calc(100% - 250px); /* Adjust based on the width of the nav */
             bottom: 0;
-            left: 220px; /* Adjusted for increased sidebar width */
+            margin-left: 250px; /* Adjust based on the width of the nav */
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>CCD's Statistics Calculators</h1>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="page1.html">Confidence Intervals For The Mean/Sample Size</a></li>
-            <li><a href="page2.html">Confidence Intervals for a Proportion/Sample Size</a></li>
-            <li><a href="page3.html">Hypothesis Testing for Means</a></li>
-            <li><a href="page4.html">Hypothesis Testing For Proportions</a></li>
-            <li><a href="page5.html">Hypothesis Testing on Two Samples (Proportions)</a></li>
-            <li><a href="page6.html">Hypothesis Testing on Two Samples (Means)</a></li>
-        </ul>
-    </nav>
+<header>
+    <h1>CCD's Statistics Calculators</h1>
+</header>
 
-    <main>
-        <p class="welcome-message">
-            Welcome to CCD's Statistics Calculators!<br><br>
-            I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
-            Please use the navigation bar on the left to explore the different calculators. Choose the one that best fits your needs and let them guide you through the calculations step by step.<br><br>
-            Happy learning, and good luck with your studies!
-        </p>
-    </main>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Confidence Intervals For The Mean/Sample Size</a></li>
+        <li><a href="page2.html">Confidence Intervals for a Proportion/Sample Size</a></li>
+        <li><a href="page3.html">Hypothesis Testing for Means</a></li>
+        <li><a href="page4.html">Hypothesis Testing For Proportions</a></li>
+        <li><a href="page5.html">Hypothesis Testing on Two Samples (Proportions)</a></li>
+        <li><a href="page6.html">Hypothesis Testing on Two Samples (Means)</a></li>
+    </ul>
+</nav>
 
-    <footer>
-        <p>&copy; 2024 Asma S. Alayeb</p>
-    </footer>
+<main>
+    <div class="welcome-message">
+        Welcome to CCD's Statistics Calculators!<br><br>
+        I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
+        Please use the navigation bar on the left to explore the different calculators. Choose the one that best fits your needs and let them guide you through the calculations step by step.<br><br>
+        Happy learning, and good luck with your studies!
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Asma S. Alayeb</p>
+</footer>
+
 </body>
 </html>
