@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,8 +16,15 @@
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            flex: 1;
             width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it stays on top */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
             background-color: #800080; /* Darker purple */
@@ -28,6 +34,7 @@
             height: 100vh; /* Full height of the viewport */
             overflow: auto; /* Add scroll if necessary */
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual separation */
+            top: 60px; /* Position below the header */
         }
         nav ul {
             list-style: none;
@@ -54,6 +61,7 @@
             padding: 15px;
             max-width: 900px;
             flex: 1;
+            margin-top: 70px; /* Adjust margin to account for the fixed header */
         }
         h1 {
             margin-top: 0;
@@ -65,7 +73,7 @@
         footer {
             background-color: #6a0dad;
             color: #fff;
-            padding: 10px;
+            padding: 5px;
             text-align: center;
             font-size: 12px;
             position: fixed;
@@ -76,6 +84,10 @@
     </style>
 </head>
 <body>
+    <header>
+        <h1>CCD's Statistics Calculators</h1>
+    </header>
+
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -88,11 +100,8 @@
         </ul>
     </nav>
 
-    <header>
-        <h1>CCD's Statistics Calculators</h1>
-    </header>
-
     <main>
+        <h1>CCD's Statistics Calculators</h1>
         <p class="welcome-message">
             Welcome to CCD's Statistics Calculators!<br><br>
             I am excited to have you here! Whether you're tackling hypothesis testing, confidence intervals, or other statistical concepts, my calculators are designed to help you understand and solve problems with ease.<br><br>
