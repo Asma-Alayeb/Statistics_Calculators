@@ -97,6 +97,9 @@
             bottom: 0;
         }
     </style>
+    <!-- MathJax script to render math symbols -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -114,9 +117,9 @@
     <section id="confidenceInterval" class="calculator">
         <h2>Confidence Interval Calculator</h2>
         <form id="ciForm">
-            <p>Sample Mean (x̄): <input type="text" id="mean" required></p>
-            <p>Sample Standard Deviation (s): <input type="text" id="stdDev" required></p>
-            <p>Sample Size (n): <input type="text" id="sampleSize" required></p>
+            <p>Sample Mean (\(\bar{x}\)): <input type="text" id="mean" required></p>
+            <p>Sample Standard Deviation (\(s\)): <input type="text" id="stdDev" required></p>
+            <p>Sample Size (\(n\)): <input type="text" id="sampleSize" required></p>
             <p>Confidence Level (%): <input type="text" id="confidenceLevel" required></p>
             <button type="button" onclick="calculateConfidenceInterval()">Calculate Confidence Interval</button>
         </form>
@@ -126,9 +129,9 @@
     <section id="sampleSizeCalculator" class="calculator">
         <h2>Sample Size Calculator</h2>
         <form id="ssForm">
-            <p>Estimated Margin of Error (E): <input type="text" id="marginError" required></p>
+            <p>Estimated Margin of Error (\(E\)): <input type="text" id="marginError" required></p>
             <p>Confidence Level (%): <input type="text" id="ssConfidenceLevel" required></p>
-            <p>Sample Standard Deviation (s): <input type="text" id="ssStdDev" required></p>
+            <p>Sample Standard Deviation (\(s\)): <input type="text" id="ssStdDev" required></p>
             <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
         </form>
         <p id="ssResult"></p>
