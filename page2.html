@@ -27,12 +27,15 @@
             background-color: #8a2be2;
             padding: 10px;
             text-align: center;
-            margin-top: 60px; /* Adjust to make space for fixed header */
+            position: fixed;
+            top: 60px; /* Adjust to fit below the header */
+            left: 0;
+            right: 0;
+            z-index: 999;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
         }
         nav a:hover {
@@ -40,7 +43,7 @@
         }
         section {
             padding: 20px;
-            margin: 20px auto;
+            margin: 100px auto 20px; /* Adjusted to make space for fixed header and nav */
             max-width: 900px;
         }
         .calculator {
@@ -103,8 +106,6 @@
 
     <nav>
         <a href="index.html">Home</a>
-        <a href="#confidenceInterval">Confidence Interval for Proportions</a>
-        <a href="#sampleSize">Sample Size Calculator</a>
     </nav>
 
     <section id="confidenceInterval" class="calculator">
