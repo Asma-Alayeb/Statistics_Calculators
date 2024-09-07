@@ -142,8 +142,8 @@
                         <option value="two">Two Tail Test</option>
                     </select>
                 </p>
-                <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
-                <p>Number of Successes (x) (Optional): <input type="text" id="num_successes" size="10"></p>
+                <p>Sample Size (\(n\)): <input type="text" id="sample_size" size="10" required></p>
+                <p>Number of Successes (\(x\))) (Optional): <input type="text" id="num_successes" size="10"></p>
                 <p>Sample Proportion (\(\hat{p}\)) (if x is not provided): <input type="text" id="sample_proportion" size="10"></p>
                 <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
                 <p><button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button></p>
@@ -203,7 +203,7 @@
             }
 
             // Display results
-            document.getElementById("test_statistic_result").innerHTML = "Test Statistic (\(z\)): " + testStatistic.toFixed(4);
+            document.getElementById("test_statistic_result").innerHTML = "(\(z_0\)) Test Statistic (z): " + testStatistic.toFixed(4);
             document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
 
             // Render MathJax
