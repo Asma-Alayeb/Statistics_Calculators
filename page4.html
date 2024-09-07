@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proportion Hypothesis Test & P-Value Calculator</title>
+    <title>Hypothesis Test for Proportions</title>
+    <!-- Load jStat library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    <!-- Load MathJax library from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
@@ -12,24 +14,33 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
         }
         header {
-            background-color: #6a0dad;
+            background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            flex: 1;
+            position: fixed;
             width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it is above other content */
+            border-bottom: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
-            background-color: #b8860b;
+            background-color: #800080; /* Darker purple */
             padding: 10px;
+            text-align: center;
             position: fixed;
-            width: 200px;
-            height: 100vh;
-            overflow: auto;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            top: 50px; /* Below the header */
+            left: 0;
+            z-index: 999; /* Ensure it is above main content but below header */
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
         nav ul {
             list-style: none;
@@ -37,49 +48,42 @@
             margin: 0;
         }
         nav ul li {
-            margin-bottom: 10px;
+            display: inline;
+            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px;
-            display: block;
-            padding: 8px;
-            border-radius: 4px;
+            font-size: 16px;
         }
         nav a:hover {
-            background-color: #6a0dad;
+            text-decoration: underline;
         }
         main {
-            margin-left: 220px;
             padding: 15px;
             max-width: 900px;
-            flex: 1;
-            background-color: #f3e6f5;
+            margin: 0 auto;
+            padding-top: 80px; /* Space for fixed header and nav */
+        }
+        section {
+            margin-bottom: 12px;
         }
         .calculator {
-            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
         }
-        button {
-            background-color: #6a0dad;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        p {
+            margin: 10px 0;
             font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #5a0a9d;
         }
         input[type="text"], select {
             padding: 8px;
@@ -89,23 +93,37 @@
             border-radius: 4px;
             width: calc(100% - 18px);
         }
-        p {
-            margin: 10px 0;
+        button {
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #800080;
         }
         footer {
             background-color: #6a0dad;
             color: #fff;
-            padding: 10px;
+            padding: 2px; /* Reduced padding */
             text-align: center;
             font-size: 12px;
             position: fixed;
-            width: calc(100% - 200px);
+            width: 100%;
             bottom: 0;
-            margin-left: 200px;
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Hypothesis Test for Proportions</h1>
+    </header>
+
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -118,16 +136,11 @@
         </ul>
     </nav>
 
-    <header>
-        <h1>Proportion Hypothesis Test & P-Value Calculator</h1>
-    </header>
-
     <main>
         <section id="hypothesisTest" class="calculator">
-            <h2>Hypothesis Test for Proportions</h2>
+            <h2>Perform Hypothesis Test for Proportions</h2>
             <form id="hypothesisForm">
-                <p><strong>Input Data:</strong></p>
-                <p>Null Hypothesis Proportion (\(p_0\)): <input type="text" id="null_proportion" size="10" required></p>
+                <!-- Input Data -->
                 <p>Test Type:
                     <select id="test_type" required>
                         <option value="left">Left Tail Test</option>
@@ -135,113 +148,72 @@
                         <option value="two">Two Tail Test</option>
                     </select>
                 </p>
+                <p>Sample Proportion (\(\hat{p}\)): <input type="text" id="sample_proportion" size="10" required></p>
+                <p>Population Proportion (\(p_0\)) (Null Hypothesis): <input type="text" id="population_proportion" size="10" required></p>
                 <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
-                <p>Number of Successes (x) (Optional): <input type="text" id="num_successes" size="10"></p>
-                <p>Sample Proportion (\(\hat{p}\)) (if x is not provided): <input type="text" id="sample_proportion" size="10"></p>
                 <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
                 <p><button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button></p>
             </form>
             <p id="test_statistic_result"></p>
-            <p id="critical_values_result"></p>
             <p id="p_value_result"></p>
-        </section>
-
-        <!-- P-Value Calculator -->
-        <section id="pValueCalculator" class="calculator">
-            <h2>P-Value Calculator</h2>
-            <form id="pValueForm">
-                <p><strong>Input Data:</strong></p>
-                <p>Test Statistic (z): <input type="text" id="input_test_statistic" size="10" required></p>
-                <p>Test Type:
-                    <select id="p_test_type" required>
-                        <option value="left">Left Tail Test</option>
-                        <option value="right">Right Tail Test</option>
-                        <option value="two">Two Tail Test</option>
-                    </select>
-                </p>
-                <p><button type="button" onclick="calculatePValue()">Calculate P-Value</button></p>
-            </form>
-            <p id="p_value_output"></p>
+            <p id="critical_values_result"></p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Asma S. Alayeb</p>
+        <p>&copy; Asma S. Alayeb</p>
     </footer>
 
     <script>
         function performHypothesisTest() {
-            var nullProportion = parseFloat(document.getElementById("null_proportion").value);
             var testType = document.getElementById("test_type").value;
-            var sampleSize = parseInt(document.getElementById("sample_size").value);
-            var numSuccesses = document.getElementById("num_successes").value ? parseInt(document.getElementById("num_successes").value) : null;
-            var sampleProportion = document.getElementById("sample_proportion").value ? parseFloat(document.getElementById("sample_proportion").value) : null;
+            var sampleProportion = parseFloat(document.getElementById("sample_proportion").value);
+            var populationProportion = parseFloat(document.getElementById("population_proportion").value);
             var alpha = parseFloat(document.getElementById("alpha").value);
+            var sampleSize = parseInt(document.getElementById("sample_size").value);
 
-            if (isNaN(nullProportion) || isNaN(sampleSize) || isNaN(alpha) || sampleSize <= 0) {
-                alert("Please ensure all required inputs are valid numbers.");
+            // Validate inputs
+            if (isNaN(sampleProportion) || isNaN(populationProportion) || isNaN(alpha) || isNaN(sampleSize) || sampleSize <= 0) {
+                alert("Please ensure all inputs are valid numbers and sample size is greater than 0.");
                 return;
             }
 
-            if (!numSuccesses && !sampleProportion) {
-                alert("Please provide either the number of successes or the sample proportion.");
-                return;
-            }
+            // Calculate the test statistic
+            var testStatistic = (sampleProportion - populationProportion) / Math.sqrt((populationProportion * (1 - populationProportion)) / sampleSize);
 
-            if (numSuccesses) {
-                sampleProportion = numSuccesses / sampleSize;
-            }
+            var criticalValueLower, criticalValueUpper;
+            var pValue;
 
-            // Calculate test statistic
-            var standardError = Math.sqrt((nullProportion * (1 - nullProportion)) / sampleSize);
-            var testStatistic = (sampleProportion - nullProportion) / standardError;
+            try {
+                if (testType === "left") {
+                    criticalValueLower = jStat.normal.inv(alpha, 0, 1);
+                    pValue = jStat.normal.cdf(testStatistic, 0, 1);
+                    criticalValueUpper = null;
+                } else if (testType === "right") {
+                    criticalValueUpper = jStat.normal.inv(1 - alpha, 0, 1);
+                    pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
+                    criticalValueLower = null;
+                } else { // two tail
+                    criticalValueLower = jStat.normal.inv(alpha / 2, 0, 1);
+                    criticalValueUpper = jStat.normal.inv(1 - alpha / 2, 0, 1);
+                    pValue = 2 * Math.min(jStat.normal.cdf(testStatistic, 0, 1), 1 - jStat.normal.cdf(testStatistic, 0, 1));
+                }
 
-            // Calculate critical value(s) and p-value
-            var criticalValueLower, criticalValueUpper, pValue;
-            if (testType === "left") {
-                criticalValueLower = jStat.normal.inv(alpha, 0, 1);
-                pValue = jStat.normal.cdf(testStatistic, 0, 1);
-            } else if (testType === "right") {
-                criticalValueUpper = jStat.normal.inv(1 - alpha, 0, 1);
-                pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
-            } else { // two-tailed test
-                criticalValueLower = jStat.normal.inv(alpha / 2, 0, 1);
-                criticalValueUpper = jStat.normal.inv(1 - alpha / 2, 0, 1);
-                pValue = 2 * (testStatistic < 0 ? jStat.normal.cdf(testStatistic, 0, 1) : 1 - jStat.normal.cdf(testStatistic, 0, 1));
+                // Display results
+                document.getElementById("test_statistic_result").innerHTML = "Test Statistic (z): " + testStatistic.toFixed(4);
+                if (testType === "two") {
+                    document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
+                } else {
+                    document.getElementById("critical_values_result").innerHTML = "Critical Value: " + (testType === "left" ? criticalValueLower.toFixed(4) : criticalValueUpper.toFixed(4));
+                }
+                document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
+            } catch (e) {
+                console.error("Error in performing the hypothesis test:", e);
+                alert("An error occurred while performing the hypothesis test. Please check the input values and try again.");
             }
-
-            // Display results
-            document.getElementById("test_statistic_result").innerHTML = "Test Statistic (z): " + testStatistic.toFixed(4);
-            if (testType === "two") {
-                document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
-            } else {
-                document.getElementById("critical_values_result").innerHTML = "Critical Value: " + (testType === "left" ? criticalValueLower.toFixed(4) : criticalValueUpper.toFixed(4));
-            }
-            document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
 
             // Render MathJax
             MathJax.typeset();
-        }
-
-        function calculatePValue() {
-            var testStatistic = parseFloat(document.getElementById("input_test_statistic").value);
-            var testType = document.getElementById("p_test_type").value;
-
-            if (isNaN(testStatistic)) {
-                alert("Please provide a valid test statistic.");
-                return;
-            }
-
-            var pValue;
-            if (testType === "left") {
-                pValue = jStat.normal.cdf(testStatistic, 0, 1);
-            } else if (testType === "right") {
-                pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
-            } else { // two-tailed
-                pValue = 2 * (testStatistic < 0 ? jStat.normal.cdf(testStatistic, 0, 1) : 1 - jStat.normal.cdf(testStatistic, 0, 1));
-            }
-
-            document.getElementById("p_value_output").innerHTML = "P-value: " + pValue.toFixed(4);
         }
     </script>
 </body>
