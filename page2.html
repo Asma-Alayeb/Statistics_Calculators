@@ -3,26 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page 1</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <h1>Page 1</h1>
-        <p><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistics Calculator</title>
     <style>
         body {
@@ -148,7 +128,7 @@
                 <p>Number of Successes (x): <input type="text" id="ci_successes" size="10" placeholder="Optional"></p>
                 <p>Sample Size (n): <input type="text" id="ci_sample_size" size="10" placeholder="Optional"></p>
                 <p>Confidence Level (%): <input type="text" id="ci_confidence_level" size="10" placeholder="e.g., 95" required></p>
-                <p>Sample Proportion (p̂) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
+                <p>Sample Proportion (\( \hat{p} \)) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
                 <button type="button" onclick="calculateProportionCI()">Calculate Confidence Interval</button>
             </form>
             <p id="ci_z_score_result"></p>
@@ -162,7 +142,7 @@
                 <p><strong>Input Data:</strong></p>
                 <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
                 <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-                <p>Sample Proportion (p̂): <input type="text" id="size_sample_proportion" size="10" required></p>
+                <p>Sample Proportion (\( \hat{p} \)): <input type="text" id="size_sample_proportion" size="10" required></p>
                 <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
             </form>
             <p id="size_sample_size_result"></p>
@@ -170,7 +150,7 @@
     </main>
 
     <footer>
-        <p>&copy; Asma Alayeb</p>
+        <p>&copy; 2024 Asma S. Alayeb</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
@@ -228,13 +208,5 @@
             document.getElementById("size_sample_size_result").innerHTML = "The required sample size is: " + sampleSize;
         }
     </script>
-</body>
-</html>
-</p>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Asma S. Alayeb</p>
-    </footer>
 </body>
 </html>
