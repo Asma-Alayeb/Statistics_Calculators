@@ -12,66 +12,122 @@
             padding: 0;
         }
         header {
-            background-color: #4b0082; /* Dark Purple */
+            background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it is above other content */
+            border-bottom: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
-            background-color: #800080; /* Purple */
+            background-color: #800080; /* Darker purple */
             padding: 10px;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 50px; /* Below the header */
+            left: 0;
+            z-index: 999; /* Ensure it is above main content but below header */
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
+            font-size: 16px;
         }
         nav a:hover {
             text-decoration: underline;
         }
+        main {
+            padding: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 80px; /* Space for fixed header and nav */
+        }
         section {
-            padding: 20px;
+            margin-bottom: 12px;
         }
         .calculator {
-            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
+            margin: 0 auto;
         }
-        button {
-            background-color: #9932CC; /* Dark Orchid */
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ba55d3; /* Medium Orchid */
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
         }
         p {
-            color: #4b0082; /* Dark Purple */
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input[type="text"], select {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 18px);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #800080;
+        }
+        footer {
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 2px; /* Reduced padding */
+            text-align: center;
+            font-size: 12px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Statistical Calculators</h1>
+    <h1>Hypothesis Testing on Two Sample Proportions</h1>
 </header>
 
 <nav>
-    <a href="#twoProportionTest">Two Population Proportions Test</a>
-    <a href="#confidenceInterval">Confidence Interval Calculator</a>
-    <a href="#sampleSizeCalculator">Sample Size Calculator</a>
+    <a href="index.html">Main Page</a>
+    
 </nav>
 
 <section id="twoProportionTest" class="calculator">
-    <h2>Two Population Proportions Hypothesis Test</h2>
+    <h2>Hypothesis Testing on Two Sample Proportions</h2>
     <form id="twoProportionForm">
         <p>Input Method: 
             <select id="inputMethod" onchange="toggleInputFields()">
@@ -80,8 +136,8 @@
             </select>
         </p>
         <div id="successesInput">
-            <p>Number of Successes in Sample 1 (x1): <input type="text" id="x1"></p>
-            <p>Sample Size 1 (n1): <input type="text" id="n1" required></p>
+            <p>Number of Successes in Sample 1 (\(x_1\)): <input type="text" id="x1"></p>
+            <p>Sample Size 1 (\(n_1\)): <input type="text" id="n1" required></p>
             <p>Number of Successes in Sample 2 (x2): <input type="text" id="x2"></p>
             <p>Sample Size 2 (n2): <input type="text" id="n2" required></p>
         </div>
