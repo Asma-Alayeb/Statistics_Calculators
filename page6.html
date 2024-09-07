@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistical Calculators</title>
+    <title>Hypothesis Test for Two Means</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             display: flex;
+            background-color: #f4f4f4;
         }
         header {
             background-color: #4b0082; /* Dark Purple */
@@ -59,11 +59,11 @@
             text-align: center; /* Center text in the middle of the page */
         }
         .calculator {
-            margin: 20px auto;
-            padding: 20px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
             max-width: 800px;
             text-align: left;
         }
@@ -80,6 +80,13 @@
         }
         p {
             color: #4b0082; /* Dark Purple */
+        }
+        input, select {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            width: calc(100% - 22px); /* Adjust width to account for padding and border */
         }
     </style>
 </head>
@@ -98,7 +105,7 @@
 </nav>
 
 <header>
-    <h1>Statistical Calculators</h1>
+    <h1>Hypothesis Testing for Two Population Means</h1>
 </header>
 
 <main>
@@ -178,11 +185,14 @@
             return;
         }
 
-        var pooledStdErr = Math.sqrt(Math.pow(stddev1, 2) / n1 + Math.pow(stddev2, 2) / n2);
-        var tScore = (mean1 - mean2) / pooledStdErr;
+        var pooledVariance = ((Math.pow(stddev1, 2) / n1) + (Math.pow(stddev2, 2) / n2));
+        var tScore = (mean1 - mean2) / Math.sqrt(pooledVariance);
+        var df = Math.pow((Math.pow(stddev1, 2) / n1 + Math.pow(stddev2, 2) / n2), 2) /
+                 (Math.pow((Math.pow(stddev1, 2) / n1), 2) / (n1 - 1) +
+                  Math.pow((Math.pow(stddev2, 2) / n2), 2) / (n2 - 1));
 
-        var df = Math.min(n1 - 1, n2 - 1);
-        var criticalValue, pValue;
+        var criticalValue;
+        var pValue;
 
         if (testType === "left") {
             criticalValue = jstat.studentt.inv(1 - alpha, df);
