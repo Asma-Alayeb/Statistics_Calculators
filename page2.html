@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics Calculator</title>
+    <title>Confidence Intervals For The Mean</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,10 +38,18 @@
             z-index: 999; /* Ensure it is above main content but below header */
             border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
             font-size: 16px;
         }
@@ -55,50 +63,46 @@
             padding-top: 80px; /* Space for fixed header and nav */
         }
         section {
-            padding: 20px;
-            margin: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
         }
         .calculator {
-            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
         }
         button {
+            padding: 10px 15px;
             background-color: #6a0dad;
             color: white;
             border: none;
-            padding: 10px 20px;
-            text-align: center;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
             border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
         }
         button:hover {
             background-color: #800080;
         }
-        input[type="text"] {
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: calc(100% - 18px);
-        }
-        p {
-            margin: 10px 0;
-            font-size: 16px;
-        }
         footer {
             background-color: #6a0dad;
             color: #fff;
-            padding: 10px;
+            padding: 2px; /* Reduced padding */
             text-align: center;
             font-size: 12px;
             position: fixed;
@@ -107,15 +111,21 @@
             border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
     </style>
+    <!-- MathJax script to render math symbols -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Statistics Calculator</h1>
-    </header>
 
-    <nav>
-        <a href="index.html">Home</a>
-    </nav>
+<header>
+    <h1>Confidence Intervals For The Mean</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+    </ul>
+</nav>
 
     <main>
         <section id="confidenceInterval" class="calculator">
