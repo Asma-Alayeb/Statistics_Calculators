@@ -75,8 +75,6 @@
             border: none;
             padding: 10px 20px;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
@@ -156,16 +154,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
     <script>
         function calculateProportionCI() {
-            var successes = document.getElementById("ci_successes").value;
-            var sampleSize = parseInt(document.getElementById("ci_sample_size").value);
-            var confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value) / 100;
-            var sampleProportion = document.getElementById("ci_sample_proportion").value;
+            const successes = document.getElementById("ci_successes").value;
+            const sampleSize = parseInt(document.getElementById("ci_sample_size").value);
+            const confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value) / 100;
+            const sampleProportion = document.getElementById("ci_sample_proportion").value;
 
-            var p_hat;
+            let p_hat;
 
             if (successes) {
-                successes = parseInt(successes);
-                p_hat = successes / sampleSize;
+                p_hat = parseInt(successes) / sampleSize;
             } else if (sampleProportion) {
                 p_hat = parseFloat(sampleProportion);
             } else {
@@ -173,16 +170,10 @@
                 return;
             }
 
-            var zScore = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
-            zScore = parseFloat(zScore.toFixed(4));
-
-            var marginOfError = zScore * Math.sqrt((p_hat * (1 - p_hat)) / sampleSize);
-            marginOfError = parseFloat(marginOfError.toFixed(4));
-
-            var lowerBound = p_hat - marginOfError;
-            var upperBound = p_hat + marginOfError;
-            lowerBound = parseFloat(lowerBound.toFixed(4));
-            upperBound = parseFloat(upperBound.toFixed(4));
+            const zScore = parseFloat(jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1).toFixed(4));
+            const marginOfError = parseFloat((zScore * Math.sqrt((p_hat * (1 - p_hat)) / sampleSize)).toFixed(4));
+            const lowerBound = parseFloat((p_hat - marginOfError).toFixed(4));
+            const upperBound = parseFloat((p_hat + marginOfError).toFixed(4));
 
             document.getElementById("ci_z_score_result").innerHTML = "The z-score is: " + zScore;
             document.getElementById("ci_margin_error_result").innerHTML = "The margin of error is: " + marginOfError;
@@ -190,20 +181,18 @@
         }
 
         function calculateSampleSize() {
-            var marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
-            var confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
-            var sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
+            const marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
+            const confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
+            const sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
 
             if (isNaN(marginOfError) || isNaN(confidenceLevel) || isNaN(sampleProportion)) {
                 alert("Please provide the margin of error, confidence level, and sample proportion.");
                 return;
             }
 
-            var zScore = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
-            zScore = parseFloat(zScore.toFixed(4));
-
-            var numerator = Math.pow(zScore, 2) * sampleProportion * (1 - sampleProportion);
-            var sampleSize = Math.ceil(numerator / Math.pow(marginOfError, 2));
+            const zScore = parseFloat(jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1).toFixed(4));
+            const numerator = Math.pow(zScore, 2) * sampleProportion * (1 - sampleProportion);
+            const sampleSize = Math.ceil(numerator / Math.pow(marginOfError, 2));
 
             document.getElementById("size_sample_size_result").innerHTML = "The required sample size is: " + sampleSize;
         }
