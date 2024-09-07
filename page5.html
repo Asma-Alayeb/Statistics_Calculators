@@ -221,7 +221,7 @@
         var testType = document.getElementById("test_type").value;
 
         var x1, n1, x2, n2, p1, p2;
-        
+
         if (method === "successes") {
             x1 = parseFloat(document.getElementById("x1").value);
             n1 = parseFloat(document.getElementById("n1").value);
@@ -236,8 +236,8 @@
             x2 = p2 * n2;
         }
 
-        var p1 = x1 / n1;
-        var p2 = x2 / n2;
+        p1 = x1 / n1;
+        p2 = x2 / n2;
         var pooledEstimate = (x1 + x2) / (n1 + n2);
         var se = Math.sqrt(pooledEstimate * (1 - pooledEstimate) * (1 / n1 + 1 / n2));
         var z = (p1 - p2) / se;
@@ -264,6 +264,7 @@
         document.getElementById("test_statistic_result").innerHTML = `Test Statistic: ${z.toFixed(5)}`;
         document.getElementById("critical_values_result").innerHTML = `Critical Value: ${criticalValue.toFixed(5)}`;
         document.getElementById("p_value_result").innerHTML = `P-Value: ${pValue.toFixed(5)}`;
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered
     }
 
     function calculateConfidenceInterval() {
@@ -284,6 +285,7 @@
 
         document.getElementById("ci_result").innerHTML = `Confidence Interval: (${lowerLimit.toFixed(5)}, ${upperLimit.toFixed(5)})`;
         document.getElementById("margin_error_result").innerHTML = `Margin of Error: ${marginError.toFixed(5)}`;
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered
     }
 
     function calculateSampleSize() {
@@ -300,6 +302,10 @@
 
         document.getElementById("sample_size_result").innerHTML = `Required Sample Size: ${n}`;
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered on initial load
+    });
 </script>
 
 </body>
