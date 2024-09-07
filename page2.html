@@ -14,7 +14,7 @@
         header {
             background-color: #6a0dad;
             color: #fff;
-            padding: 10px 0;
+            padding: 5px 0; /* Reduced height of the header */
             text-align: center;
             position: fixed;
             top: 0;
@@ -22,13 +22,14 @@
             right: 0;
             z-index: 1000;
             border-bottom: 5px solid #b8860b; /* Dark golden lip */
+            font-size: 18px; /* Smaller font size */
         }
         nav {
             background-color: #8a2be2;
             padding: 10px;
             text-align: center;
             position: fixed;
-            top: 60px; /* Adjust to fit below the header */
+            top: 45px; /* Adjusted to fit below the smaller header */
             left: 0;
             right: 0;
             z-index: 999;
@@ -127,9 +128,9 @@
         <h2>Sample Size Calculator for Proportions</h2>
         <form id="sizeForm">
             <p><strong>Input Data:</strong></p>
-            <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
+            <p>Margin of Error (%): <input type="text" id="size_margin_of_error" size="10" required></p>
             <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (\( \hat{p} \)): <input type="text" id="size_sample_proportion" size="10" required></p>
+            <p>Sample Proportion (%): <input type="text" id="size_sample_proportion" size="10" required></p>
             <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
         </form>
         <p id="size_sample_size_result"></p>
@@ -153,7 +154,7 @@
                 successes = parseInt(successes);
                 p_hat = successes / sampleSize;
             } else if (sampleProportion) {
-                p_hat = parseFloat(sampleProportion);
+                p_hat = parseFloat(sampleProportion) / 100; // Convert from percentage
             } else {
                 alert("Please provide either the number of successes (x) or the sample proportion (\\( \\hat{p} \\)).");
                 return;
@@ -176,9 +177,9 @@
         }
 
         function calculateSampleSize() {
-            var marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
+            var marginOfError = parseFloat(document.getElementById("size_margin_of_error").value) / 100; // Convert from percentage
             var confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
-            var sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
+            var sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value) / 100; // Convert from percentage
 
             if (isNaN(marginOfError) || isNaN(confidenceLevel) || isNaN(sampleProportion)) {
                 alert("Please provide the margin of error, confidence level, and sample proportion.");
