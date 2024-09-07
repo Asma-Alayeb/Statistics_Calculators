@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confidence Intervals For Proportions</title>
+    <title>Statistics Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,195 +12,157 @@
             padding: 0;
         }
         header {
-            background-color: #6a0dad; /* Purple */
+            background-color: #6a0dad;
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000; /* Ensure it is above other content */
-            border-bottom: 5px solid #b8860b; /* Dark Goldenrod border */
-        }
-        header h1 {
-            margin: 0;
-            font-size: 24px;
         }
         nav {
-            background-color: #800080; /* Darker purple */
+            background-color: #8a2be2;
             padding: 10px;
             text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 50px; /* Below the header */
-            left: 0;
-            z-index: 999; /* Ensure it is above main content but below header */
-            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
+            margin: 0 15px;
             font-weight: bold;
-            font-size: 16px;
         }
         nav a:hover {
             text-decoration: underline;
         }
-        main {
-            padding: 15px;
-            max-width: 900px;
-            margin: 0 auto;
-            padding-top: 80px; /* Space for fixed header and nav */
-        }
         section {
-            margin-bottom: 12px;
+            padding: 20px;
+            margin: 20px;
         }
         .calculator {
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            margin-top: 0;
-            font-size: 22px;
-        }
-        p {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        input[type="text"] {
-            padding: 8px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 300px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+            max-width: 800px;
         }
         button {
-            padding: 10px 15px;
             background-color: #6a0dad;
             color: white;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
             font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
         }
         button:hover {
-            background-color: #800080;
+            background-color: #5a0a9d;
         }
-        footer {
-            background-color: #6a0dad;
-            color: #fff;
-            padding: 2px; /* Reduced padding */
-            text-align: center;
-            font-size: 12px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
+        input[type="text"] {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 18px);
+        }
+        p {
+            margin: 10px 0;
         }
     </style>
-    <!-- MathJax script to render math symbols -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+    <header>
+        <h1>Statistics Calculator</h1>
+    </header>
 
-<header>
-    <h1>Confidence Intervals For Proportions</h1>
-</header>
+    <nav>
+        <a href="#confidenceInterval">Confidence Interval for Proportions</a>
+        <a href="#sampleSize">Sample Size Calculator</a>
+    </nav>
 
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-    </ul>
-</nav>
-
-<main>
     <section id="confidenceInterval" class="calculator">
         <h2>Confidence Interval Calculator for Proportions</h2>
         <form id="ciForm">
-            <p>Sample Proportion (\(p\)): <input type="text" id="proportion" required></p>
-            <p>Sample Size (\(n\)): <input type="text" id="sampleSize" required></p>
-            <p>Confidence Level (%): <input type="text" id="confidenceLevel" required></p>
-            <button type="button" onclick="calculateConfidenceInterval()">Calculate Confidence Interval</button>
+            <p><strong>Input Data:</strong></p>
+            <p>Number of Successes (x): <input type="text" id="ci_successes" size="10" placeholder="Optional"></p>
+            <p>Sample Size (n): <input type="text" id="ci_sample_size" size="10" placeholder="Optional"></p>
+            <p>Confidence Level (%): <input type="text" id="ci_confidence_level" size="10" placeholder="e.g., 95" required></p>
+            <p>Sample Proportion (p̂) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
+            <button type="button" onclick="calculateProportionCI()">Calculate Confidence Interval</button>
         </form>
-        <p id="ciResult"></p>
+        <p id="ci_z_score_result"></p>
+        <p id="ci_margin_error_result"></p>
+        <p id="ci_confidence_interval_result"></p>
     </section>
 
-    <section id="sampleSizeCalculator" class="calculator">
+    <section id="sampleSize" class="calculator">
         <h2>Sample Size Calculator for Proportions</h2>
-        <form id="ssForm">
-            <p>Estimated Proportion (\(p\)): <input type="text" id="ssProportion" required></p>
-            <p>Margin of Error (%): <input type="text" id="marginError" required></p>
-            <p>Confidence Level (%): <input type="text" id="ssConfidenceLevel" required></p>
+        <form id="sizeForm">
+            <p><strong>Input Data:</strong></p>
+            <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
+            <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
+            <p>Sample Proportion (p̂): <input type="text" id="size_sample_proportion" size="10" required></p>
             <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
         </form>
-        <p id="ssResult"></p>
+        <p id="size_sample_size_result"></p>
     </section>
-</main>
 
-<footer>
-    <p>&copy; Asma Alayeb</p>
-</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    <script>
+        function calculateProportionCI() {
+            var successes = document.getElementById("ci_successes").value;
+            var sampleSize = parseInt(document.getElementById("ci_sample_size").value);
+            var confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value) / 100;
+            var sampleProportion = document.getElementById("ci_sample_proportion").value;
 
-<script>
-    function calculateConfidenceInterval() {
-        const p = parseFloat(document.getElementById('proportion').value);
-        const n = parseInt(document.getElementById('sampleSize').value);
-        const confidenceLevel = parseFloat(document.getElementById('confidenceLevel').value) / 100;
+            var p_hat;
 
-        if (isNaN(p) || isNaN(n) || isNaN(confidenceLevel) || n <= 0 || p <= 0 || p >= 1) {
-            alert("Please enter valid numbers.");
-            return;
+            if (successes) {
+                successes = parseInt(successes);
+                p_hat = successes / sampleSize;
+            } else if (sampleProportion) {
+                p_hat = parseFloat(sampleProportion);
+            } else {
+                alert("Please provide either the number of successes (x) or the sample proportion (p̂).");
+                return;
+            }
+
+            var zScore = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
+            zScore = parseFloat(zScore.toFixed(4));
+
+            var marginOfError = zScore * Math.sqrt((p_hat * (1 - p_hat)) / sampleSize);
+            marginOfError = parseFloat(marginOfError.toFixed(4));
+
+            var lowerBound = p_hat - marginOfError;
+            var upperBound = p_hat + marginOfError;
+            lowerBound = parseFloat(lowerBound.toFixed(4));
+            upperBound = parseFloat(upperBound.toFixed(4));
+
+            document.getElementById("ci_z_score_result").innerHTML = "The z-score is: " + zScore;
+            document.getElementById("ci_margin_error_result").innerHTML = "The margin of error is: " + marginOfError;
+            document.getElementById("ci_confidence_interval_result").innerHTML = "The confidence interval for the proportion is [" + lowerBound + ", " + upperBound + "]";
         }
 
-        const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
-        const marginOfError = zValue * Math.sqrt((p * (1 - p)) / n);
-        const lowerBound = p - marginOfError;
-        const upperBound = p + marginOfError;
+        function calculateSampleSize() {
+            var marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
+            var confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
+            var sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
 
-        document.getElementById('ciResult').innerHTML = `Confidence Interval: [${lowerBound.toFixed(4)}, ${upperBound.toFixed(4)}]<br>Margin of Error: ${marginOfError.toFixed(4)}`;
-    }
+            if (isNaN(marginOfError) || isNaN(confidenceLevel) || isNaN(sampleProportion)) {
+                alert("Please provide the margin of error, confidence level, and sample proportion.");
+                return;
+            }
 
-    function calculateSampleSize() {
-        const p = parseFloat(document.getElementById('ssProportion').value);
-        const marginErrorPercent = parseFloat(document.getElementById('marginError').value); // Input as percentage
-        const confidenceLevel = parseFloat(document.getElementById('ssConfidenceLevel').value) / 100; // Convert to decimal
+            var zScore = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
+            zScore = parseFloat(zScore.toFixed(4));
 
-        // Convert margin error from percentage to decimal
-        const marginError = marginErrorPercent / 100;
+            var numerator = Math.pow(zScore, 2) * sampleProportion * (1 - sampleProportion);
+            var sampleSize = Math.ceil(numerator / Math.pow(marginOfError, 2));
 
-        // Validate inputs
-        if (isNaN(p) || isNaN(marginError) || isNaN(confidenceLevel) || marginError <= 0 || p <= 0 || p >= 1) {
-            alert("Please enter valid numbers.");
-            return;
+            document.getElementById("size_sample_size_result").innerHTML = "The required sample size is: " + sampleSize;
         }
-
-        // Calculate the zValue for the given confidence level
-        const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
-        // Round zValue to 4 decimal places
-        const roundedZValue = parseFloat(zValue.toFixed(4));
-
-        // Calculate the sample size
-        const sampleSize = Math.ceil((Math.pow(roundedZValue, 2) * p * (1 - p)) / Math.pow(marginError, 2));
-
-        // Display the result
-        document.getElementById('ssResult').innerHTML = `Z-value (rounded to 4 decimals): ${roundedZValue}<br>Required Sample Size: ${sampleSize}`;
-    }
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    </script>
 </body>
 </html>
