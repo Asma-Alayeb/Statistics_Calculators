@@ -16,6 +16,11 @@
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it is above other content */
         }
         header h1 {
             margin: 0;
@@ -25,6 +30,11 @@
             background-color: #800080; /* Darker purple */
             padding: 10px;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 50px; /* Below the header */
+            left: 0;
+            z-index: 999; /* Ensure it is above main content but below header */
         }
         nav ul {
             list-style: none;
@@ -48,6 +58,7 @@
             padding: 15px;
             max-width: 900px;
             margin: 0 auto;
+            padding-top: 80px; /* Space for fixed header and nav */
         }
         section {
             margin-bottom: 12px;
