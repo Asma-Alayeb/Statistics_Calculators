@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistical Calculators</title>
-    <style>
+   <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
         header {
             background-color: #6a0dad; /* Purple */
@@ -20,70 +19,99 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000; /* Ensure header is on top */
+            left: 0;
+            z-index: 1000; /* Ensure it is above other content */
+            border-bottom: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
-            background-color: #b8860b; /* Dark golden color */
+            background-color: #800080; /* Darker purple */
             padding: 10px;
             text-align: center;
             position: fixed;
-            width: 200px; /* Fixed width for sidebar */
-            height: 100vh; /* Full height of the viewport */
-            overflow-y: auto; /* Add vertical scroll if necessary */
-            top: 60px; /* Adjust based on header height */
+            width: 100%;
+            top: 50px; /* Below the header */
             left: 0;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+            z-index: 999; /* Ensure it is above main content but below header */
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
-            display: block;
+            font-size: 16px;
         }
         nav a:hover {
             text-decoration: underline;
         }
         main {
-            margin-left: 220px; /* Adjust based on the width of the nav */
-            padding: 80px 15px 15px; /* Space for header and padding */
-            background-color: #f4f4f4;
+            padding: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 80px; /* Space for fixed header and nav */
         }
         section {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
         .calculator {
-            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
+            margin: 0 auto;
         }
-        button {
-            background-color: #9932CC; /* Dark Orchid */
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ba55d3; /* Medium Orchid */
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
         }
         p {
-            color: #4b0082; /* Dark Purple */
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input[type="text"], select {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 18px);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #800080;
         }
         footer {
-            background-color: #6a0dad; /* Purple */
+            background-color: #6a0dad;
             color: #fff;
-            padding: 10px;
+            padding: 2px; /* Reduced padding */
             text-align: center;
             font-size: 12px;
             position: fixed;
-            width: calc(100% - 200px); /* Adjust based on the width of the nav */
+            width: 100%;
             bottom: 0;
-            left: 200px; /* Adjust based on the width of the nav */
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
     </style>
     <!-- MathJax library for rendering mathematical symbols -->
@@ -92,18 +120,17 @@
 <body>
 
 <header>
-    <h1>Statistical Calculators</h1>
+    <h1>Hypothesis Testing On Two Samples (Proportions)</h1>
 </header>
 
 <nav>
-    <a href="#twoProportionTest">Two Population Proportions Test</a>
-    <a href="#confidenceInterval">Confidence Interval Calculator</a>
-    <a href="#sampleSizeCalculator">Sample Size Calculator</a>
+    <a href="index.html">Main Page</a>
+    
 </nav>
 
 <main>
     <section id="twoProportionTest" class="calculator">
-        <h2>Two Population Proportions Hypothesis Test</h2>
+        <h2>Hypothesis Testing Calculator</h2>
         <form id="twoProportionForm">
             <p>Input Method: 
                 <select id="inputMethod" onchange="toggleInputFields()">
@@ -113,15 +140,15 @@
             </p>
             <div id="successesInput">
                 <p>Number of Successes in Sample 1 (x1): <input type="text" id="x1"></p>
-                <p>Sample Size 1 (n1): <input type="text" id="n1" required></p>
+                <p>Sample 1 Size  (n1): <input type="text" id="n1" required></p>
                 <p>Number of Successes in Sample 2 (x2): <input type="text" id="x2"></p>
-                <p>Sample Size 2 (n2): <input type="text" id="n2" required></p>
+                <p>Sample 2 Size  (n2): <input type="text" id="n2" required></p>
             </div>
             <div id="proportionsInput" style="display: none;">
-                <p>Sample Proportion 1 (p1): <input type="text" id="p1"></p>
-                <p>Sample Size 1 (n1_proportion): <input type="text" id="n1_proportion" required></p>
-                <p>Sample Proportion 2 (p2): <input type="text" id="p2"></p>
-                <p>Sample Size 2 (n2_proportion): <input type="text" id="n2_proportion" required></p>
+                <p>Sample 1 Proportion  (p1): <input type="text" id="p1"></p>
+                <p>Sample 1 Size  (n1): <input type="text" id="n1_proportion" required></p>
+                <p>Sample 2 Proportion  (p2): <input type="text" id="p2"></p>
+                <p>Sample 2 Size  (n2): <input type="text" id="n2_proportion" required></p>
             </div>
             <p>Alpha (α): <input type="text" id="alpha" required></p>
             <p>Test Type: 
