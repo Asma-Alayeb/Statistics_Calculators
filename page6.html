@@ -5,30 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hypothesis Test for Two Means</title>
     <link rel="stylesheet" href="style.css">
-    <style>
+     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            background-color: #f4f4f4;
         }
         header {
-            background-color: #4b0082; /* Dark Purple */
+            background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            flex: 1;
+            position: fixed;
             width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it is above other content */
+            border-bottom: 5px solid #b8860b; /* Dark Goldenrod border */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         nav {
-            background-color: #800080; /* Purple */
+            background-color: #800080; /* Darker purple */
             padding: 10px;
+            text-align: center;
             position: fixed;
-            width: 200px; /* Wider width for the sidebar */
-            height: 100vh; /* Full height of the viewport */
-            overflow: auto; /* Add scroll if necessary */
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual separation */
+            width: 100%;
+            top: 50px; /* Below the header */
+            left: 0;
+            z-index: 999; /* Ensure it is above main content but below header */
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
         nav ul {
             list-style: none;
@@ -36,57 +45,74 @@
             margin: 0;
         }
         nav ul li {
-            margin-bottom: 10px;
+            display: inline;
+            margin-right: 15px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px; /* Smaller font size */
-            display: block;
-            padding: 8px;
-            border-radius: 4px;
+            font-size: 16px;
         }
         nav a:hover {
-            background-color: #4b0082; /* Darker purple */
+            text-decoration: underline;
         }
         main {
-            margin-left: 220px; /* Adjust based on the width of the nav */
             padding: 15px;
             max-width: 900px;
-            flex: 1;
-            background-color: #f3e6f5; /* Light purple background */
-            text-align: center; /* Center text in the middle of the page */
+            margin: 0 auto;
+            padding-top: 80px; /* Space for fixed header and nav */
+        }
+        section {
+            margin-bottom: 12px;
         }
         .calculator {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
-            text-align: left;
+            margin: 0 auto;
         }
-        button {
-            background-color: #9932CC; /* Dark Orchid */
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ba55d3; /* Medium Orchid */
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
         }
         p {
-            color: #4b0082; /* Dark Purple */
+            margin: 10px 0;
+            font-size: 16px;
         }
-        input, select {
+        input[type="text"], select {
+            padding: 8px;
+            margin-top: 5px;
             margin-bottom: 10px;
-            padding: 5px;
-            border-radius: 3px;
             border: 1px solid #ddd;
-            width: calc(100% - 22px); /* Adjust width to account for padding and border */
+            border-radius: 4px;
+            width: calc(100% - 18px);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #800080;
+        }
+        footer {
+            background-color: #6a0dad;
+            color: #fff;
+            padding: 2px; /* Reduced padding */
+            text-align: center;
+            font-size: 12px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 5px solid #b8860b; /* Dark Goldenrod border */
         }
     </style>
 </head>
@@ -94,23 +120,18 @@
 
 <nav>
     <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="page1.html">Confidence Intervals For The Mean/Sample Size</a></li>
-        <li><a href="page2.html">Confidence Intervals for a Proportion/Sample Size</a></li>
-        <li><a href="page3.html">Hypothesis Testing for Means</a></li>
-        <li><a href="page4.html">Hypothesis Testing For Proportions</a></li>
-        <li><a href="page5.html">Hypothesis Testing on Two Samples (Proportions)</a></li>
-        <li><a href="page6.html">Hypothesis Testing on Two Samples (Means)</a></li>
+        <li><a href="index.html">Main Page</a></li>
+      
     </ul>
 </nav>
 
 <header>
-    <h1>Hypothesis Testing for Two Population Means</h1>
+    <h1>Hypothesis Testing on Two Samples (Means)</h1>
 </header>
 
 <main>
     <section id="twoMeansTest" class="calculator">
-        <h2>Two Population Means Hypothesis Test</h2>
+        <h2>Hypothesis Testing Calculator</h2>
         <form id="twoMeansForm">
             <p>Sample Mean 1 (x̄1): <input type="text" id="mean1" required></p>
             <p>Sample Standard Deviation 1 (s1): <input type="text" id="stddev1" required></p>
