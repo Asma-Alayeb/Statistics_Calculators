@@ -147,9 +147,9 @@
         <h2>Sample Size Calculator for Proportions</h2>
         <form id="sizeForm">
             <p><strong>Input Data:</strong></p>
-            <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
+            <p>Margin of Error (%): <input type="text" id="size_margin_of_error" size="10" required></p>
             <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (\(\hat{p}\)): <input type="text" id="size_sample_proportion" size="10" required></p>
+            <p>Sample Proportion (\(\hat{p}\)) (%): <input type="text" id="size_sample_proportion" size="10" required></p>
             <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
         </form>
         <p id="size_sample_size_result"></p>
@@ -197,20 +197,20 @@
     }
 
     function calculateSampleSize() {
-        var marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
+        var marginOfErrorPercent = parseFloat(document.getElementById("size_margin_of_error").value) / 100;
         var confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
-        var sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
+        var sampleProportionPercent = parseFloat(document.getElementById("size_sample_proportion").value) / 100;
 
-        if (isNaN(marginOfError) || isNaN(confidenceLevel) || isNaN(sampleProportion)) {
-            alert("Please provide the margin of error, confidence level, and sample proportion.");
+        if (isNaN(marginOfErrorPercent) || isNaN(confidenceLevel) || isNaN(sampleProportionPercent)) {
+            alert("Please provide the margin of error (%), confidence level (%), and sample proportion (%).");
             return;
         }
 
         var zScore = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
         zScore = parseFloat(zScore.toFixed(4));
 
-        var numerator = Math.pow(zScore, 2) * sampleProportion * (1 - sampleProportion);
-        var sampleSize = Math.ceil(numerator / Math.pow(marginOfError, 2));
+        var numerator = Math.pow(zScore, 2) * sampleProportionPercent * (1 - sampleProportionPercent);
+        var sampleSize = Math.ceil(numerator / Math.pow(marginOfErrorPercent, 2));
 
         document.getElementById("size_sample_size_result").innerHTML = "The required sample size is: " + sampleSize;
     }
