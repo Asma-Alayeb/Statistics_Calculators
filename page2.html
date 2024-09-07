@@ -16,11 +16,18 @@
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 5px solid #b8860b; /* Dark golden lip */
         }
         nav {
             background-color: #8a2be2;
             padding: 10px;
             text-align: center;
+            margin-top: 60px; /* Adjust to make space for fixed header */
         }
         nav a {
             color: #fff;
@@ -33,7 +40,8 @@
         }
         section {
             padding: 20px;
-            margin: 20px;
+            margin: 20px auto;
+            max-width: 900px;
         }
         .calculator {
             margin: 20px auto;
@@ -41,7 +49,6 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
         }
         button {
             background-color: #6a0dad;
@@ -70,7 +77,24 @@
         p {
             margin: 10px 0;
         }
+        footer {
+            background-color: #6a0dad;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-top: 5px solid #b8860b; /* Dark golden lip */
+        }
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
     </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <header>
@@ -78,6 +102,7 @@
     </header>
 
     <nav>
+        <a href="index.html">Home</a>
         <a href="#confidenceInterval">Confidence Interval for Proportions</a>
         <a href="#sampleSize">Sample Size Calculator</a>
     </nav>
@@ -89,7 +114,7 @@
             <p>Number of Successes (x): <input type="text" id="ci_successes" size="10" placeholder="Optional"></p>
             <p>Sample Size (n): <input type="text" id="ci_sample_size" size="10" placeholder="Optional"></p>
             <p>Confidence Level (%): <input type="text" id="ci_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (p̂) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
+            <p>Sample Proportion (\( \hat{p} \)) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
             <button type="button" onclick="calculateProportionCI()">Calculate Confidence Interval</button>
         </form>
         <p id="ci_z_score_result"></p>
@@ -103,11 +128,15 @@
             <p><strong>Input Data:</strong></p>
             <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
             <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (p̂): <input type="text" id="size_sample_proportion" size="10" required></p>
+            <p>Sample Proportion (\( \hat{p} \)): <input type="text" id="size_sample_proportion" size="10" required></p>
             <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
         </form>
         <p id="size_sample_size_result"></p>
     </section>
+
+    <footer>
+        <p>&copy; 2024 Asma S. Alayeb - <a href="index.html">Home</a></p>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
     <script>
@@ -125,7 +154,7 @@
             } else if (sampleProportion) {
                 p_hat = parseFloat(sampleProportion);
             } else {
-                alert("Please provide either the number of successes (x) or the sample proportion (p̂).");
+                alert("Please provide either the number of successes (x) or the sample proportion (\\( \\hat{p} \\)).");
                 return;
             }
 
