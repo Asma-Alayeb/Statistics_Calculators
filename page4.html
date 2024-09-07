@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hypothesis Test for Proportions</title>
-    <!-- Load jStat library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
-    <!-- Load MathJax library from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
@@ -127,7 +125,7 @@
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-    
+            <!-- Add other navigation links as needed -->
         </ul>
     </nav>
 
@@ -136,6 +134,7 @@
             <h2>Perform Hypothesis Test for Proportions</h2>
             <form id="hypothesisForm">
                 <!-- Input Data -->
+                <p>Null Hypothesis Proportion (\(p_0\)): <input type="text" id="null_proportion" size="10" required></p>
                 <p>Test Type:
                     <select id="test_type" required>
                         <option value="left">Left Tail Test</option>
@@ -143,15 +142,15 @@
                         <option value="two">Two Tail Test</option>
                     </select>
                 </p>
-                <p>Sample Proportion (\(\hat{p}\)): <input type="text" id="sample_proportion" size="10" required></p>
-                <p>Population Proportion (\(p_0\)) (Null Hypothesis): <input type="text" id="population_proportion" size="10" required></p>
-                <p>Sample Size (\(n\)): <input type="text" id="sample_size" size="10" required></p>
+                <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
+                <p>Number of Successes (x) (Optional): <input type="text" id="num_successes" size="10"></p>
+                <p>Sample Proportion (\(\hat{p}\)) (if x is not provided): <input type="text" id="sample_proportion" size="10"></p>
                 <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
                 <p><button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button></p>
             </form>
             <p id="test_statistic_result"></p>
-            <p id="p_value_result"></p>
             <p id="critical_values_result"></p>
+            <p id="p_value_result"></p>
         </section>
     </main>
 
@@ -161,51 +160,51 @@
 
     <script>
         function performHypothesisTest() {
+            var nullProportion = parseFloat(document.getElementById("null_proportion").value);
             var testType = document.getElementById("test_type").value;
-            var sampleProportion = parseFloat(document.getElementById("sample_proportion").value);
-            var populationProportion = parseFloat(document.getElementById("population_proportion").value);
-            var alpha = parseFloat(document.getElementById("alpha").value);
             var sampleSize = parseInt(document.getElementById("sample_size").value);
+            var numSuccesses = document.getElementById("num_successes").value ? parseInt(document.getElementById("num_successes").value) : null;
+            var sampleProportion = document.getElementById("sample_proportion").value ? parseFloat(document.getElementById("sample_proportion").value) : null;
+            var alpha = parseFloat(document.getElementById("alpha").value);
 
-            // Validate inputs
-            if (isNaN(sampleProportion) || isNaN(populationProportion) || isNaN(alpha) || isNaN(sampleSize) || sampleSize <= 0) {
-                alert("Please ensure all inputs are valid numbers and sample size is greater than 0.");
+            if (isNaN(nullProportion) || isNaN(sampleSize) || isNaN(alpha) || sampleSize <= 0) {
+                alert("Please ensure all required inputs are valid numbers and sample size is greater than 0.");
                 return;
             }
 
-            // Calculate the test statistic
-            var testStatistic = (sampleProportion - populationProportion) / Math.sqrt((populationProportion * (1 - populationProportion)) / sampleSize);
-
-            var criticalValueLower, criticalValueUpper;
-            var pValue;
-
-            try {
-                if (testType === "left") {
-                    criticalValueLower = jStat.normal.inv(alpha, 0, 1);
-                    pValue = jStat.normal.cdf(testStatistic, 0, 1);
-                    criticalValueUpper = null;
-                } else if (testType === "right") {
-                    criticalValueUpper = jStat.normal.inv(1 - alpha, 0, 1);
-                    pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
-                    criticalValueLower = null;
-                } else { // two tail
-                    criticalValueLower = jStat.normal.inv(alpha / 2, 0, 1);
-                    criticalValueUpper = jStat.normal.inv(1 - alpha / 2, 0, 1);
-                    pValue = 2 * Math.min(jStat.normal.cdf(testStatistic, 0, 1), 1 - jStat.normal.cdf(testStatistic, 0, 1));
-                }
-
-                // Display results
-                document.getElementById("test_statistic_result").innerHTML = "Test Statistic (z): " + testStatistic.toFixed(4);
-                if (testType === "two") {
-                    document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
-                } else {
-                    document.getElementById("critical_values_result").innerHTML = "Critical Value: " + (testType === "left" ? criticalValueLower.toFixed(4) : criticalValueUpper.toFixed(4));
-                }
-                document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
-            } catch (e) {
-                console.error("Error in performing the hypothesis test:", e);
-                alert("An error occurred while performing the hypothesis test. Please check the input values and try again.");
+            if (!numSuccesses && !sampleProportion) {
+                alert("Please provide either the number of successes or the sample proportion.");
+                return;
             }
+
+            if (numSuccesses) {
+                sampleProportion = numSuccesses / sampleSize;
+            }
+
+            // Calculate test statistic
+            var standardError = Math.sqrt((nullProportion * (1 - nullProportion)) / sampleSize);
+            var testStatistic = (sampleProportion - nullProportion) / standardError;
+
+            // Calculate critical value(s) and p-value
+            var criticalValueLower, criticalValueUpper, pValue;
+            if (testType === "left") {
+                criticalValueLower = jStat.normal.inv(alpha, 0, 1);
+                pValue = jStat.normal.cdf(testStatistic, 0, 1);
+                document.getElementById("critical_values_result").innerHTML = "Critical Value: " + criticalValueLower.toFixed(4);
+            } else if (testType === "right") {
+                criticalValueUpper = jStat.normal.inv(1 - alpha, 0, 1);
+                pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
+                document.getElementById("critical_values_result").innerHTML = "Critical Value: " + criticalValueUpper.toFixed(4);
+            } else { // two-tailed test
+                criticalValueLower = jStat.normal.inv(alpha / 2, 0, 1);
+                criticalValueUpper = jStat.normal.inv(1 - alpha / 2, 0, 1);
+                pValue = 2 * (testStatistic < 0 ? jStat.normal.cdf(testStatistic, 0, 1) : 1 - jStat.normal.cdf(testStatistic, 0, 1));
+                document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
+            }
+
+            // Display results
+            document.getElementById("test_statistic_result").innerHTML = "Test Statistic (z): " + testStatistic.toFixed(4);
+            document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
 
             // Render MathJax
             MathJax.typeset();
