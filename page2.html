@@ -114,8 +114,7 @@
     </header>
 
     <nav>
-        <a href="#confidenceInterval">Confidence Interval for Proportions</a>
-        <a href="#sampleSize">Sample Size Calculator</a>
+        <a href="index.html">Home</a>
     </nav>
 
     <main>
@@ -132,18 +131,6 @@
             <p id="ci_z_score_result"></p>
             <p id="ci_margin_error_result"></p>
             <p id="ci_confidence_interval_result"></p>
-        </section>
-
-        <section id="sampleSize" class="calculator">
-            <h2>Sample Size Calculator for Proportions</h2>
-            <form id="sizeForm">
-                <p><strong>Input Data:</strong></p>
-                <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
-                <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-                <p>Sample Proportion (\( \hat{p} \)): <input type="text" id="size_sample_proportion" size="10" required></p>
-                <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
-            </form>
-            <p id="size_sample_size_result"></p>
         </section>
     </main>
 
@@ -178,23 +165,6 @@
             document.getElementById("ci_z_score_result").innerHTML = "The z-score is: " + zScore;
             document.getElementById("ci_margin_error_result").innerHTML = "The margin of error is: " + marginOfError;
             document.getElementById("ci_confidence_interval_result").innerHTML = "The confidence interval for the proportion is [" + lowerBound + ", " + upperBound + "]";
-        }
-
-        function calculateSampleSize() {
-            const marginOfError = parseFloat(document.getElementById("size_margin_of_error").value);
-            const confidenceLevel = parseFloat(document.getElementById("size_confidence_level").value) / 100;
-            const sampleProportion = parseFloat(document.getElementById("size_sample_proportion").value);
-
-            if (isNaN(marginOfError) || isNaN(confidenceLevel) || isNaN(sampleProportion)) {
-                alert("Please provide the margin of error, confidence level, and sample proportion.");
-                return;
-            }
-
-            const zScore = parseFloat(jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1).toFixed(4));
-            const numerator = Math.pow(zScore, 2) * sampleProportion * (1 - sampleProportion);
-            const sampleSize = Math.ceil(numerator / Math.pow(marginOfError, 2));
-
-            document.getElementById("size_sample_size_result").innerHTML = "The required sample size is: " + sampleSize;
         }
     </script>
 </body>
