@@ -138,18 +138,18 @@
                 </select>
             </p>
             <div id="successesInput">
-                <p>Number of Successes in Sample 1 (\\(x_1\\)): <input type="text" id="x1"></p>
-                <p>Sample 1 Size  (\\(n_1\\)): <input type="text" id="n1" required></p>
-                <p>Number of Successes in Sample 2 (\\(x_2\\)): <input type="text" id="x2"></p>
-                <p>Sample 2 Size  (\\(n_2\\)): <input type="text" id="n2" required></p>
+                <p>Number of Successes in Sample 1 (\(x_1\)): <input type="text" id="x1"></p>
+                <p>Sample 1 Size  (\(n_1\)): <input type="text" id="n1" required></p>
+                <p>Number of Successes in Sample 2 (\(x_2\)): <input type="text" id="x2"></p>
+                <p>Sample 2 Size  (\(n_2\)): <input type="text" id="n2" required></p>
             </div>
             <div id="proportionsInput" style="display: none;">
-                <p>Sample 1 Proportion  (\\(p_1\\)): <input type="text" id="p1"></p>
-                <p>Sample 1 Size  (\\(n_1\\)): <input type="text" id="n1_proportion" required></p>
-                <p>Sample 2 Proportion  (\\(p_2\\)): <input type="text" id="p2"></p>
-                <p>Sample 2 Size  (\\(n_2\\)): <input type="text" id="n2_proportion" required></p>
+                <p>Sample 1 Proportion  (\(p_1\)): <input type="text" id="p1"></p>
+                <p>Sample 1 Size  (\(n_1\)): <input type="text" id="n1_proportion" required></p>
+                <p>Sample 2 Proportion  (\(p_2\)): <input type="text" id="p2"></p>
+                <p>Sample 2 Size  (\(n_2\)): <input type="text" id="n2_proportion" required></p>
             </div>
-            <p>Alpha (\\(\\alpha\\)): <input type="text" id="alpha" required></p>
+            <p>Alpha (\(\alpha\)): <input type="text" id="alpha" required></p>
             <p>Test Type: 
                 <select id="test_type" required>
                     <option value="left">Left Tail Test</option>
@@ -169,10 +169,10 @@
     <section id="confidenceInterval" class="calculator">
         <h2>Confidence Interval Calculator</h2>
         <form id="confidenceIntervalForm">
-            <p>Sample Proportion 1 (\\(p_1\\)): <input type="text" id="ci_p1" required></p>
-            <p>Sample Size 1 (\\(n_1\\)): <input type="text" id="ci_n1" required></p>
-            <p>Sample Proportion 2 (\\(p_2\\)): <input type="text" id="ci_p2" required></p>
-            <p>Sample Size 2 (\\(n_2\\)): <input type="text" id="ci_n2" required></p>
+            <p>Sample Proportion 1 (\(p_1\)): <input type="text" id="ci_p1" required></p>
+            <p>Sample Size 1 (\(n_1\)): <input type="text" id="ci_n1" required></p>
+            <p>Sample Proportion 2 (\(p_2\)): <input type="text" id="ci_p2" required></p>
+            <p>Sample Size 2 (\(n_2\)): <input type="text" id="ci_n2" required></p>
             <p>Confidence Level (%): <input type="text" id="ci_confidence_level" required></p>
             <button type="button" onclick="calculateConfidenceInterval()">Calculate Confidence Interval</button>
         </form>
@@ -184,8 +184,8 @@
     <section id="sampleSizeCalculator" class="calculator">
         <h2>Sample Size Calculator</h2>
         <form id="sampleSizeForm">
-            <p>Sample Proportion 1 (\\(p_1\\)): <input type="text" id="ss_p1" required></p>
-            <p>Sample Proportion 2 (\\(p_2\\)): <input type="text" id="ss_p2" required></p>
+            <p>Sample Proportion 1 (\(p_1\)): <input type="text" id="ss_p1" required></p>
+            <p>Sample Proportion 2 (\(p_2\)): <input type="text" id="ss_p2" required></p>
             <p>Confidence Level (%): <input type="text" id="ss_confidence_level" required></p>
             <p>Margin of Error (%): <input type="text" id="ss_margin_error" required></p>
             <p><button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button></p>
@@ -216,55 +216,47 @@
     }
 
     function performTwoProportionTest() {
-        var method = document.getElementById("inputMethod").value;
+        var inputMethod = document.getElementById("inputMethod").value;
         var alpha = parseFloat(document.getElementById("alpha").value);
         var testType = document.getElementById("test_type").value;
-
+        
         var x1, n1, x2, n2, p1, p2;
 
-        if (method === "successes") {
+        if (inputMethod === "successes") {
             x1 = parseFloat(document.getElementById("x1").value);
             n1 = parseFloat(document.getElementById("n1").value);
             x2 = parseFloat(document.getElementById("x2").value);
             n2 = parseFloat(document.getElementById("n2").value);
+            p1 = x1 / n1;
+            p2 = x2 / n2;
         } else {
             p1 = parseFloat(document.getElementById("p1").value);
             n1 = parseFloat(document.getElementById("n1_proportion").value);
             p2 = parseFloat(document.getElementById("p2").value);
             n2 = parseFloat(document.getElementById("n2_proportion").value);
-            x1 = p1 * n1;
-            x2 = p2 * n2;
         }
 
-        p1 = x1 / n1;
-        p2 = x2 / n2;
+        var p_hat1 = p1;
+        var p_hat2 = p2;
         var pooledEstimate = (x1 + x2) / (n1 + n2);
-        var se = Math.sqrt(pooledEstimate * (1 - pooledEstimate) * (1 / n1 + 1 / n2));
-        var z = (p1 - p2) / se;
 
-        var criticalValue;
-        if (testType === "left") {
-            criticalValue = jstat.normal.inv(alpha, 0, 1);
-        } else if (testType === "right") {
-            criticalValue = jstat.normal.inv(1 - alpha, 0, 1);
-        } else {
-            criticalValue = jstat.normal.inv(1 - alpha / 2, 0, 1);
-        }
+        var z = jStat.normal.inv(1 - alpha / 2, 0, 1);
+        var se = Math.sqrt(pooledEstimate * (1 - pooledEstimate) * (1 / n1 + 1 / n2));
+        var testStatistic = (p_hat1 - p_hat2) / se;
 
         var pValue;
         if (testType === "left") {
-            pValue = jstat.normal.cdf(z, 0, 1);
+            pValue = jStat.normal.cdf(testStatistic, 0, 1);
         } else if (testType === "right") {
-            pValue = 1 - jstat.normal.cdf(z, 0, 1);
+            pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
         } else {
-            pValue = 2 * (1 - jstat.normal.cdf(Math.abs(z), 0, 1));
+            pValue = 2 * (1 - jStat.normal.cdf(Math.abs(testStatistic), 0, 1));
         }
 
-        document.getElementById("pooled_estimate_result").innerHTML = `Pooled Estimate: ${pooledEstimate.toFixed(5)}`;
-        document.getElementById("test_statistic_result").innerHTML = `Test Statistic: ${z.toFixed(5)}`;
-        document.getElementById("critical_values_result").innerHTML = `Critical Value: ${criticalValue.toFixed(5)}`;
-        document.getElementById("p_value_result").innerHTML = `P-Value: ${pValue.toFixed(5)}`;
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered
+        document.getElementById("pooled_estimate_result").innerHTML = "Pooled Estimate: " + pooledEstimate.toFixed(5);
+        document.getElementById("test_statistic_result").innerHTML = "Test Statistic: " + testStatistic.toFixed(5);
+        document.getElementById("critical_values_result").innerHTML = "Critical Value: " + z.toFixed(5);
+        document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(5);
     }
 
     function calculateConfidenceInterval() {
@@ -273,39 +265,31 @@
         var p2 = parseFloat(document.getElementById("ci_p2").value);
         var n2 = parseFloat(document.getElementById("ci_n2").value);
         var confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value) / 100;
-        var alpha = 1 - confidenceLevel;
 
-        var pooledEstimate = (p1 * n1 + p2 * n2) / (n1 + n2);
-        var se = Math.sqrt(pooledEstimate * (1 - pooledEstimate) * (1 / n1 + 1 / n2));
-        var zCritical = jstat.normal.inv(1 - alpha / 2, 0, 1);
+        var z = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
+        var se = Math.sqrt(p1 * (1 - p1) / n1 + p2 * (1 - p2) / n2);
+        var marginOfError = z * se;
 
-        var marginError = zCritical * se;
-        var lowerLimit = pooledEstimate - marginError;
-        var upperLimit = pooledEstimate + marginError;
+        var ciLower = (p1 - p2) - marginOfError;
+        var ciUpper = (p1 - p2) + marginOfError;
 
-        document.getElementById("ci_result").innerHTML = `Confidence Interval: (${lowerLimit.toFixed(5)}, ${upperLimit.toFixed(5)})`;
-        document.getElementById("margin_error_result").innerHTML = `Margin of Error: ${marginError.toFixed(5)}`;
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered
+        document.getElementById("ci_result").innerHTML = "Confidence Interval: [" + ciLower.toFixed(5) + ", " + ciUpper.toFixed(5) + "]";
+        document.getElementById("margin_error_result").innerHTML = "Margin of Error: " + marginOfError.toFixed(5);
     }
 
     function calculateSampleSize() {
         var p1 = parseFloat(document.getElementById("ss_p1").value);
         var p2 = parseFloat(document.getElementById("ss_p2").value);
         var confidenceLevel = parseFloat(document.getElementById("ss_confidence_level").value) / 100;
-        var marginError = parseFloat(document.getElementById("ss_margin_error").value) / 100;
-        var alpha = 1 - confidenceLevel;
+        var marginOfError = parseFloat(document.getElementById("ss_margin_error").value);
 
-        var pooledEstimate = (p1 + p2) / 2;
-        var se = marginError / jstat.normal.inv(1 - alpha / 2, 0, 1);
+        var z = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
+        var pooledProportion = (p1 + p2) / 2;
+        var se = Math.sqrt(pooledProportion * (1 - pooledProportion) / 2);
+        var sampleSize = Math.ceil(Math.pow(z * se / marginOfError, 2));
 
-        var n = Math.ceil((pooledEstimate * (1 - pooledEstimate) * Math.pow(se, 2)) / Math.pow(marginError, 2));
-
-        document.getElementById("sample_size_result").innerHTML = `Required Sample Size: ${n}`;
+        document.getElementById("sample_size_result").innerHTML = "Required Sample Size: " + sampleSize;
     }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // Ensure LaTeX is rendered on initial load
-    });
 </script>
 
 </body>
