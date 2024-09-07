@@ -7,35 +7,60 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
         }
         header {
-            background-color: #6a0dad;
+            background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            flex: 1;
+            width: 100%;
         }
         nav {
-            background-color: #8a2be2;
+            background-color: #b8860b; /* Dark golden color */
             padding: 10px;
-            text-align: center;
+            position: fixed;
+            width: 200px; /* Wider width for the sidebar */
+            height: 100vh; /* Full height of the viewport */
+            overflow: auto; /* Add scroll if necessary */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual separation */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            margin-bottom: 10px;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
+            font-size: 14px; /* Smaller font size */
+            display: block;
+            padding: 8px;
+            border-radius: 4px;
         }
         nav a:hover {
-            text-decoration: underline;
+            background-color: #6a0dad; /* Lighter purple */
         }
-        section {
-            padding: 20px;
-            margin: 20px;
+        main {
+            margin-left: 220px; /* Adjust based on the width of the nav */
+            padding: 15px;
+            max-width: 900px;
+            flex: 1;
+            background-color: #f3e6f5; /* Light purple background */
+            text-align: center; /* Center text in the middle of the page */
         }
-        .calculator {
+        h1, h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        section.calculator {
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
@@ -48,11 +73,7 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
             border-radius: 5px;
         }
@@ -65,7 +86,7 @@
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            width: calc(100% - 18px);
+            width: calc(100% - 16px);
         }
         p {
             margin: 10px 0;
@@ -73,41 +94,45 @@
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="#confidenceInterval">Confidence Interval for Proportions</a></li>
+            <li><a href="#sampleSize">Sample Size Calculator</a></li>
+        </ul>
+    </nav>
+
     <header>
         <h1>Statistics Calculator</h1>
     </header>
 
-    <nav>
-        <a href="#confidenceInterval">Confidence Interval for Proportions</a>
-        <a href="#sampleSize">Sample Size Calculator</a>
-    </nav>
+    <main>
+        <section id="confidenceInterval" class="calculator">
+            <h2>Confidence Interval Calculator for Proportions</h2>
+            <form id="ciForm">
+                <p><strong>Input Data:</strong></p>
+                <p>Number of Successes (x): <input type="text" id="ci_successes" size="10" placeholder="Optional"></p>
+                <p>Sample Size (n): <input type="text" id="ci_sample_size" size="10" placeholder="Optional"></p>
+                <p>Confidence Level (%): <input type="text" id="ci_confidence_level" size="10" placeholder="e.g., 95" required></p>
+                <p>Sample Proportion (p̂) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
+                <button type="button" onclick="calculateProportionCI()">Calculate Confidence Interval</button>
+            </form>
+            <p id="ci_z_score_result"></p>
+            <p id="ci_margin_error_result"></p>
+            <p id="ci_confidence_interval_result"></p>
+        </section>
 
-    <section id="confidenceInterval" class="calculator">
-        <h2>Confidence Interval Calculator for Proportions</h2>
-        <form id="ciForm">
-            <p><strong>Input Data:</strong></p>
-            <p>Number of Successes (x): <input type="text" id="ci_successes" size="10" placeholder="Optional"></p>
-            <p>Sample Size (n): <input type="text" id="ci_sample_size" size="10" placeholder="Optional"></p>
-            <p>Confidence Level (%): <input type="text" id="ci_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (p̂) (if x is not provided): <input type="text" id="ci_sample_proportion" size="10" placeholder="Optional"></p>
-            <button type="button" onclick="calculateProportionCI()">Calculate Confidence Interval</button>
-        </form>
-        <p id="ci_z_score_result"></p>
-        <p id="ci_margin_error_result"></p>
-        <p id="ci_confidence_interval_result"></p>
-    </section>
-
-    <section id="sampleSize" class="calculator">
-        <h2>Sample Size Calculator for Proportions</h2>
-        <form id="sizeForm">
-            <p><strong>Input Data:</strong></p>
-            <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
-            <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
-            <p>Sample Proportion (p̂): <input type="text" id="size_sample_proportion" size="10" required></p>
-            <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
-        </form>
-        <p id="size_sample_size_result"></p>
-    </section>
+        <section id="sampleSize" class="calculator">
+            <h2>Sample Size Calculator for Proportions</h2>
+            <form id="sizeForm">
+                <p><strong>Input Data:</strong></p>
+                <p>Margin of Error: <input type="text" id="size_margin_of_error" size="10" required></p>
+                <p>Confidence Level (%): <input type="text" id="size_confidence_level" size="10" placeholder="e.g., 95" required></p>
+                <p>Sample Proportion (p̂): <input type="text" id="size_sample_proportion" size="10" required></p>
+                <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
+            </form>
+            <p id="size_sample_size_result"></p>
+        </section>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
     <script>
