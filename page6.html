@@ -84,8 +84,8 @@
         }
         p {
             margin: 10px 0;
-            font-size: 18px;
-            text-align: left;
+            font-size: 16px;
+            /*text-align: left;*/
              
         }
         input[type="text"], select {
@@ -193,7 +193,9 @@
         <p id="sample_size_result"></p>
     </section>
 </main>
-
+<footer>
+    <p>&copy; 2024 Asma S. Alayeb</p>
+</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 <script>
     function performTwoMeansTest() {
@@ -269,9 +271,7 @@
         document.getElementById("sample_size_result").innerHTML = `Required Sample Size per Group: ${sampleSize}`;
     }
 </script>
-<footer>
-    <p>&copy; 2024 Asma S. Alayeb</p>
-</footer>
+
 
 </body>
     
